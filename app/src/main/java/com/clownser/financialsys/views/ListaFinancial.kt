@@ -6,10 +6,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -17,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.clownser.financialsys.R
 import com.clownser.financialsys.itemLista.TarefaItem
@@ -88,7 +92,14 @@ fun ListaFinancial(navController: NavController){
                 prioridade = 2
             )
         )
-        LazyColumn( modifier= Modifier.padding(10.dp,80.dp,10.dp,10.dp)){
+        Text(
+            text = "Saldo: R$4.500,00",
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier.padding(80.dp)
+        )
+        LazyColumn( modifier= Modifier.padding(10.dp,140.dp,10.dp,10.dp)){
             itemsIndexed(listaTarefas){
                 position, _->
                 TarefaItem(position, listaTarefas)
