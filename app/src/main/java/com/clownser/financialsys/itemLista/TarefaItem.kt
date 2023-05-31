@@ -31,10 +31,11 @@ fun TarefaItem(position:Int, listaTarefas:MutableList<Tarefa>){
 
     val tituloNome = listaTarefas[position].nome
     val descricaoTarefa = listaTarefas[position].descricao
-    val prioridade = listaTarefas[position].prioridade
+    val tipo = listaTarefas[position].tipo
     val price = listaTarefas[position].price
 
-    var nivelDePrioridade: String = when(prioridade){
+
+    var tipoReceita: String = when(tipo){
 
 
         1 ->{
@@ -47,7 +48,7 @@ fun TarefaItem(position:Int, listaTarefas:MutableList<Tarefa>){
     }
 
 
-        val color = when(prioridade){
+        val color = when(tipo){
             0->{Color.Black}
             1->{
                 RADIO_BUTTON_GREEN_SELECTED
@@ -90,7 +91,7 @@ fun TarefaItem(position:Int, listaTarefas:MutableList<Tarefa>){
                     start.linkTo(parent.start, margin=10.dp)
                 }
            )
-           Text(text = nivelDePrioridade,
+           Text(text = tipoReceita,
                 modifier = Modifier.constrainAs(txtPrioridade){
                     top.linkTo(txtDescricao.bottom,margin = 10.dp)
                     start.linkTo(parent.start, margin=10.dp)
