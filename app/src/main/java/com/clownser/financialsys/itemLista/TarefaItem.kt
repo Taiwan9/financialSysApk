@@ -1,6 +1,7 @@
 package com.clownser.financialsys.itemLista
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,9 +19,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.clownser.financialsys.R
 import com.clownser.financialsys.model.Tarefa
+import com.clownser.financialsys.ui.theme.LIGHT_BLUE
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_GREEN_SELECTED
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_RED_SELECTED
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_YELLOW_SELECTED
@@ -64,22 +67,24 @@ fun TarefaItem(position:Int, listaTarefas:MutableList<Tarefa>){
         colors = CardDefaults.cardColors(Color.White),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(0.dp,20.dp,0.dp,0.dp)
     ) {
        ConstraintLayout(
-           modifier = Modifier.padding(20.dp)
        ) {
            val(txtTitulo,txtPrice, txtDescricao, cardPrioridade, txtPrioridade, btDeletar)= createRefs()
 
-           Text(text = tituloNome.toString(),
-                modifier = Modifier.constrainAs(txtTitulo){
+           Text(text = tituloNome.toString(), textAlign = TextAlign.Center,
+               fontSize = 30.sp,
+               modifier = Modifier.constrainAs(txtTitulo){
                     top.linkTo(parent.top,margin = 10.dp)
                     start.linkTo(parent.start, margin=10.dp)
 
-                },
+                }.background(LIGHT_BLUE).fillMaxWidth(),
+                color = Color.White
 
            )
-           Text(text =price.toString(),
+           Text(text ="R$ ${price.toString()}",
+               fontSize = 25.sp,
                modifier = Modifier.constrainAs(txtPrice){
                    top.linkTo(txtTitulo.bottom, margin =40.dp)
                    start.linkTo(parent.start, margin=10.dp)

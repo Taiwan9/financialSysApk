@@ -15,6 +15,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -40,7 +41,7 @@ fun calcularTotalReceita(listaTarefas: List<Tarefa>): Double {
     return totalReceita
 }
 
-fun calcularTotalDespesa(listaTarefas: List<Tarefa>): Double {
+fun calcularTotalDespesa(listaTarefas:MutableList<Tarefa>): Double {
     var totalDespesa = 0.0
     for (tarefa in listaTarefas) {
         if (tarefa.tipo == 2) {
@@ -51,8 +52,8 @@ fun calcularTotalDespesa(listaTarefas: List<Tarefa>): Double {
 }
 
 fun calcularSaldo(listaTarefas: List<Tarefa>): Double {
-    val totalReceita = calcularTotalReceita(listaTarefas)
-    val totalDespesa = calcularTotalDespesa(listaTarefas)
+    val totalReceita = calcularTotalReceita(listaTarefas )
+    val totalDespesa = calcularTotalDespesa(listaTarefas as MutableList<Tarefa>)
     return totalReceita - totalDespesa
 }
 
@@ -70,7 +71,7 @@ fun ListaFinancial(navController: NavController){
 
     val topAppBarHeight = 56.dp
 
-    val listaTarefas: MutableList<Tarefa> = mutableListOf(
+    val listaTarefas: MutableList<Tarefa> = remember { mutableListOf(
         Tarefa(
             nome = "Cinema",
             descricao = "Tempo de descontração e diversão",
@@ -102,6 +103,8 @@ fun ListaFinancial(navController: NavController){
             tipo = 2
         )
     )
+
+    }
 
     val totalReceita = calcularTotalReceita(listaTarefas)
     val totalDespesa = calcularTotalDespesa(listaTarefas)

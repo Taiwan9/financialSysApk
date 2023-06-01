@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.clownser.financialsys.components.Botao
 import com.clownser.financialsys.components.CaixaTexto
+import com.clownser.financialsys.model.Tarefa
 import com.clownser.financialsys.ui.theme.LIGHT_BLUE
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_GREEN_DISABLE
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_GREEN_SELECTED
@@ -39,6 +40,8 @@ import com.clownser.financialsys.ui.theme.RADIO_BUTTON_RED_DISABLE
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_RED_SELECTED
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_YELLOW_DISABLE
 import com.clownser.financialsys.ui.theme.RADIO_BUTTON_YELLOW_SELECTED
+
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,24 +56,29 @@ fun SalvarFinancial(navController: NavController){
             )
         },
     ) {
-        var tituloTarefa by remember {
-            mutableStateOf("")
-        }
-        var descricao by remember {
-            mutableStateOf("")
+        var tituloTarefa by remember { mutableStateOf("") }
+        var descricao by remember { mutableStateOf("") }
+        var price by remember { mutableStateOf("") }
+        var receita by remember { mutableStateOf(false) }
+        var despesa by remember { mutableStateOf(false) }
+
+
+
+        val listaTarefas: MutableList<Tarefa> by remember { mutableStateOf(mutableListOf()) }
+
+        // Função para adicionar uma nova tarefa à lista
+        val adicionarTarefa = {
+            val tipo = if (receita) 1 else 2 // Define o tipo com base na seleção dos radio buttons
+            val novaTarefa = Tarefa(nome = tituloTarefa, descricao = descricao, price = price.toDoubleOrNull(), tipo = tipo)
+            listaTarefas.add(novaTarefa)
+            // Limpa os campos das caixas de texto e reseta as seleções dos radio buttons
+            tituloTarefa = ""
+            descricao = ""
+            price = ""
+            receita = false
+            despesa = false
         }
 
-        var price by remember {
-            mutableStateOf("")
-        }
-
-        var receita by remember {
-            mutableStateOf(false)
-        }
-
-        var despesa by remember {
-            mutableStateOf(false)
-        }
 
         Column(
             modifier = Modifier
@@ -123,33 +131,41 @@ fun SalvarFinancial(navController: NavController){
             ) {
                 Text(text = "Receita/Despesa")
                 RadioButton(
-                    selected =receita,
+                    selected = receita,
                     onClick = {
-                        receita = !receita
+                        receita = true
+                        despesa = false
                     },
-                colors = RadioButtonDefaults.colors(
-                    unselectedColor = RADIO_BUTTON_GREEN_DISABLE,
-                    selectedColor = RADIO_BUTTON_GREEN_SELECTED
-                ))
+                    colors = RadioButtonDefaults.colors(
+                        unselectedColor = RADIO_BUTTON_GREEN_DISABLE,
+                        selectedColor = RADIO_BUTTON_GREEN_SELECTED
+                    )
+                )
 
                 RadioButton(
                     selected = despesa,
                     onClick = {
-                        despesa = !despesa
+                        receita = false
+                        despesa = true
                     },
-                colors = RadioButtonDefaults.colors(
-                    unselectedColor = RADIO_BUTTON_RED_DISABLE,
-                    selectedColor = RADIO_BUTTON_RED_SELECTED
-                )
+                    colors = RadioButtonDefaults.colors(
+                        unselectedColor = RADIO_BUTTON_RED_DISABLE,
+                        selectedColor = RADIO_BUTTON_RED_SELECTED
+                    )
                 )
             }
         Botao(
-            onCLick = {},
+            onCLick = {
+                adicionarTarefa()
+                navController.navigate("listaFinancial") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp)
                 .padding(20.dp),
             texto = "Salvar")
+
         }
+
     }
+
 }
